@@ -66,34 +66,34 @@ for user in users:
 print "-"*10
 print "搜索: Redis"
 users = query('test', "Redis")
- 
+
 for user in users:
     print user['id'], user['title']
 
 print "-"*10
 print "搜索: 张无忌"
 users = query('test', "张无忌")
- 
+
 for user in users:
     print user['id'], user['title']
 
 print "-"*10
 print "搜索: 回明朝做皇帝"
 users = query('test', "回明朝做皇帝")
- 
+
 for user in users:
     print user['id'], user['title']
 
 print "-"*10
 print "搜索: 皇帝"
 users = query('test', "当皇帝")
- 
+
 for user in users:
     print user['id'], user['title']
 
 print "-"*10
 print "拼音搜索: zhang"
 users = query('test', "zhang")
- 
+
 for user in users:
     print user['id'], user['title']
