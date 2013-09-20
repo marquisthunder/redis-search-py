@@ -34,7 +34,7 @@ def mk_condition_key(name, field, id):
 
 def mk_complete_key(name):
     """docstring for mk_complete_key"""
-    return "Compl%s" % name
+    return "%s_complete" % name
 
 def split_pinyin(text):
     """docstring for split_pinyin"""

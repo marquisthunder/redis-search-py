@@ -76,7 +76,9 @@ def query(name, text, offset=0, limit=10, sort_field='id', conditions=None):
 
 
 def complete(name, keyword, limit=10, conditions=None):
-    """docstring for complete"""
+    """complete: prefix match search
+        keyword
+        limit: max match count"""
 
     conditions = conditions if isinstance(conditions, dict) and conditions else {}
 
@@ -102,7 +104,7 @@ def complete(name, keyword, limit=10, conditions=None):
             start += rangelen
             if not entries or len(entries) == 0:
                 break
-            #entries sorted in asc so once entry is inconsistence with prefix will break
+            #entries sorted in desc so once entry is inconsistence with prefix will break
             for entry in entries:
                 minlen = min(len(entry), len(prefix))
 
