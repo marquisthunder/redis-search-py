@@ -10,15 +10,15 @@ import util
 from util import split_words, split_pinyin, utf8
 from util import mk_sets_key, mk_score_key, mk_condition_key, mk_complete_key
 
-class index(object):
-    """docstring for Index"""
+class Index(object):
+
+    """Index"""
     def __init__(self, name, id, title, score="id", condition_fields=None,
                     prefix_index_enable=True, exts=None, **kwargs):
 
         if isinstance(exts, dict):
             kwargs.update(exts)
         self.name  = name
-
         self.title = utf8(title)
         self.id    = id
         self.score = score
@@ -80,9 +80,8 @@ class index(object):
         pipe = util.redis.pipeline()
 
         pipe.hdel(name, id)
-        words = self.split_words_for_index(title)
 
-        for word in words:
+        for word in self.split_words_for_index(title):
             key = mk_sets_key(name, word)
 
             pipe.srem(key, id)
@@ -104,8 +103,7 @@ class index(object):
     def save_prefix_index(self):
         """docstring for save_prefix_index"""
 
-        words = []
-        words.append(self.title.lower())
+        words = [self.title.lower()]
 
         pipe = util.redis.pipeline()
 

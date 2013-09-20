@@ -66,13 +66,12 @@ def query(name, text, offset=0, limit=10, sort_field='id', conditions=None):
 
     # 根据需要的数量取出 ids
     ids = util.redis.sort(temp_store_key,
-                     start=offset,
-                     num=limit,
-                     by=mk_score_key(name, "*"),
-                     desc=True)
+                          start=offset,
+                          num=limit,
+                          by=mk_score_key(name, "*"),
+                          desc=True)
     result = hmget(name, ids, sort_field=sort_field)
     logging.debug("{}:\"{}\" | Time spend:{}s".format(name, text, time.time()-tm))
-    print result
     return result
 
 
