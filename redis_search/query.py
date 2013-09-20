@@ -102,13 +102,16 @@ def complete(name, keyword, limit=10, conditions=None):
             start += rangelen
             if not entries or len(entries) == 0:
                 break
+            #entries sorted in asc so once entry is inconsistence with prefix will break
             for entry in entries:
                 minlen = min(len(entry), len(prefix))
 
+                #this entry break the consistency with prefix
                 if entry[0:minlen] != prefix[0:minlen]:
                     count = len(prefix_matchs)
                     break
 
+                # found matched entry
                 if entry[-1] == "*" and len(prefix_matchs) != count:
                     match = entry[:-1]
                     if match not in prefix_matchs:
