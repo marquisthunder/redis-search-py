@@ -12,14 +12,13 @@ from mmseg.search import seg_txt_search, seg_txt_2_dict
 complete_max_length = 10
 pinyin_match        = True
 debug               = True
-
-redis = redis.Redis()
+redis               = redis.Redis()
 
 def hmget(name, ids, sort_field='id'):
     """docstring for hmget"""
     if not ids:
         return []
-    return [r for r in redis.hmget(name, ids) if r]
+    return [json.loads(r) for r in redis.hmget(name, ids) if r]
 
 def mk_sets_key(name, word):
     """docstring for mk_sets_key"""

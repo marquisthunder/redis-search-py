@@ -4,9 +4,7 @@
 import logging
 import redis
 import time
-
 import redis_search
-
 from redis_search.util import split_words
 from redis_search.index import index
 from redis_search.query import query, complete
@@ -19,7 +17,6 @@ for w in words:
     print w
 
 pool = redis.ConnectionPool(host='127.0.0.1', port=6379, db=8)
-redis_search.util.redis = redis.Redis(connection_pool=pool)
 
 i = index("test", 1, "Redis")
 i.save()

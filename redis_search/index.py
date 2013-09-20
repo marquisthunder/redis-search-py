@@ -6,7 +6,8 @@ import logging
 
 from chinese_pinyin import Pinyin
 
-from util import split_words, split_pinyin, utf8, redis, pinyin_match
+import util
+from util import split_words, split_pinyin, utf8
 from util import mk_sets_key, mk_score_key, mk_condition_key, mk_complete_key
 
 class index(object):
@@ -40,7 +41,7 @@ class index(object):
         if self.exts:
             data.update(self.exts)
 
-        pipe = redis.pipeline()
+        pipe = util.redis.pipeline()
 
         # 将原始数据存入 hashes
         res = pipe.hset(self.name, self.id, json.dumps(data))
@@ -76,7 +77,7 @@ class index(object):
 
     def remove(self, name, id, title):
         """docstring for remove"""
-        pipe = redis.pipeline()
+        pipe = util.redis.pipeline()
 
         pipe.hdel(name, id)
         words = self.split_words_for_index(title)
@@ -96,7 +97,7 @@ class index(object):
         """docstring for split_words_for_index"""
 
         words = split_words(title)
-        if pinyin_match:
+        if util.pinyin_match:
             words += split_pinyin(title)
         return words
 
@@ -106,11 +107,11 @@ class index(object):
         words = []
         words.append(self.title.lower())
 
-        pipe = redis.pipeline()
+        pipe = util.redis.pipeline()
 
         pipe.sadd(mk_sets_key(self.name, self.title), self.id)
 
-        if pinyin_match:
+        if util.pinyin_match:
             pinyin = Pinyin.t(self.title.lower(), "")
             words += pinyin
 
