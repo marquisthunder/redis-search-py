@@ -24,9 +24,9 @@ def mk_sets_key(name, word):
     """docstring for mk_sets_key"""
     return "%s:%s" % (name, word.lower())
 
-def mk_score_key(name, id):
+def mk_score_key(name, score):
     """docstring for mk_score_key"""
-    return "%s:_score_:%s" % (name, id)
+    return "%s:_score_:%s" % (name, score)
 
 def mk_condition_key(name, field, id):
     """docstring for mk_condition_key"""

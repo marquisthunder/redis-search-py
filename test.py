@@ -19,21 +19,24 @@ for w in words:
 pool = redis.ConnectionPool(host='127.0.0.1', port=6379, db=8)
 redis_search.util.redis = redis.Redis(connection_pool=pool)
 
-i = Index("test", 1, "Redis")
+i = Index("test", 1, "Redis是一个高性能的key-value数据库")
 i.save()
 
 i = Index("test", 2, "Redhat")
 i.save()
-
 
 i = Index("test", 3, "张无忌最后没有选定自己的配偶", "id", exts= {
      'username':"jiedan", 'email':'lxb429@gmail.com'
 }, password="123456")
 i.save()
 
-i = Index("test", 4, "Redis是一个高性能的key-value数据库", "id", exts= {
-    'username': "jiedan", 'email':'lxb429@gmail.com'
-})
+i = Index("test", 4, "Redis")
+i.save()
+
+i = Index("test", 5, "Redis in action")
+i.save()
+
+i = Index("test", 5, "Redis in action(MEAP)")
 i.save()
 
 i = Index("test", 6, "回明朝当皇帝", "id", exts={"title":"回明朝当皇帝"})
@@ -49,6 +52,12 @@ i = Index("test", 9, "虹桥国际机场")
 i.save()
 
 i = Index("test", 10, "雷克雅未克")
+i.save()
+
+i = Index("test", 11, "雷克雅未克s")
+i.save()
+
+i = Index("test", 12, "雷克雅未克sdssc")
 i.save()
 
 print "自动完成: r"
@@ -87,6 +96,12 @@ for user in users:
     print user['id'], user['title']
 
 print "-" * 10
+print "自动完成:  雷克雅未克"
+users = complete('test', " 雷克雅未克")
+for user in users:
+    print user['id'], user['title']
+
+print "-" * 10
 print "搜索: Redis"
 users = query('test', "Redis")
 for user in users:
@@ -117,7 +132,13 @@ for user in users:
     print user['id'], user['title']
 
 print "-" * 10
-print "搜索: 雷克雅未克"
+print "搜索: 雷克雅克"
 users = query('test', "雷克雅克")
+for user in users:
+    print user['id'], user['title']
+
+print "-" * 10
+print "搜索: 雅克未克"
+users = query('test', "雅克未克")
 for user in users:
     print user['id'], user['title']

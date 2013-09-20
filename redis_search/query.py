@@ -53,7 +53,7 @@ def query(name, text, offset=0, limit=10, sort_field='id', conditions=None):
             pinyin_words += condition_keys
             temp_sunion_key = "tmpsunionstore:%s" % "+".join(words)
             temp_pinyin_store_key = "tmpinterstore:%s" % "+".join(pinyin_words)
-            # 找出拼音的
+            # 找出拼音的交集
             util.redis.sinterstore(temp_pinyin_store_key, pinyin_words)
             # 合并中文和拼音的搜索结果
             util.redis.sunionstore(temp_sunion_key, [temp_store_key, temp_pinyin_store_key])
@@ -118,7 +118,8 @@ def complete(name, keyword, limit=10, conditions=None):
     # 组合 words 的特别 key 名
     words = [mk_sets_key(name, word) for word in prefix_matchs]
 
-    # 组合特别 key,但这里不会像 query 那样放入 words,因为在 complete 里面 words 是用 union 取的，condition_keys 和 words 应该取交集
+    # 组合特别key,但这里不会像query那样放入words,
+    # 因为在complete里面words是用union取的,condition_keys和words应该取交集
     condition_keys = [mk_condition_key(name, c, utf8(conditions[c]))
                       for c in conditions]
     # 按词语搜索
@@ -145,10 +146,10 @@ def complete(name, keyword, limit=10, conditions=None):
             util.redis.expire(temp_store_key, 86400)
 
     ids = util.redis.sort(temp_store_key,
-                     start=0,
-                     num=limit,
-                     by=mk_score_key(name, "*"),
-                     desc=True)
+                          start=0,
+                          num=limit,
+                          by=mk_score_key(name, "*"),
+                          desc=True)
     if not ids:
         return []
     return hmget(name, ids)

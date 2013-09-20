@@ -83,9 +83,9 @@ class Index(object):
 
         for word in self.split_words_for_index(title):
             key = mk_sets_key(name, word)
-
             pipe.srem(key, id)
             pipe.delete(mk_score_key(name, id))
+
         # remove set for prefix index key
         pipe.srem(mk_sets_key(name, title, id))
 
@@ -94,7 +94,6 @@ class Index(object):
 
     def split_words_for_index(self, title):
         """docstring for split_words_for_index"""
-
         words = split_words(title)
         if util.pinyin_match:
             words += split_pinyin(title)
@@ -102,17 +101,14 @@ class Index(object):
 
     def save_prefix_index(self):
         """docstring for save_prefix_index"""
-
         words = [self.title.lower()]
 
         pipe = util.redis.pipeline()
-
         pipe.sadd(mk_sets_key(self.name, self.title), self.id)
 
         if util.pinyin_match:
             pinyin = Pinyin.t(self.title.lower(), "")
             words += pinyin
-
             pipe.sadd(mk_sets_key(self.name, pinyin), self.id)
 
         key = mk_complete_key(self.name)
